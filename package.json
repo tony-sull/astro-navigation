@@ -13,9 +13,13 @@
   "keywords": [
     "astro-component"
   ],
-  "scripts": {},
+  "scripts": {
+    "lint": "prettier -w --plugin-search-dir=. ."
+  },
   "devDependencies": {
-    "astro": "^1.2.6"
+    "astro": "^1.2.6",
+    "prettier": "^2.7.1",
+    "prettier-plugin-astro": "^0.5.4"
   },
   "peerDependencies": {
     "astro": "^1.2.6"
