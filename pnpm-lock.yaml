@@ -5,12 +5,14 @@ specifiers:
   dependency-graph: ^0.11.0
   prettier: ^2.7.1
   prettier-plugin-astro: ^0.5.4
+  schema-dts: ^1.1.0
 
 devDependencies:
   astro: 1.2.6
   dependency-graph: 0.11.0
   prettier: 2.7.1
   prettier-plugin-astro: 0.5.4
+  schema-dts: 1.1.0
 
 packages:
 
@@ -2908,6 +2910,12 @@ packages:
     resolution: {integrity: sha512-NKFP8ddjhUYi6A/iD1cEtzkEs91U61kzqe3lY9SVNuvX7LGc88xnEN0mmsWL7Ol//YTi2GL/ol7b9XZ2+hgXuA==}
     dependencies:
       suf-log: 2.5.3
+    dev: true
+
+  /schema-dts/1.1.0:
+    resolution: {integrity: sha512-vdmbs/5ycj4zyKpZIDqTcy+IZi4s7c38RVAYuDmRi7zgxUT8wRWPMLzg0jr7FjdVunYu9yZ00F3+XcZTTFcTOQ==}
+    peerDependencies:
+      typescript: '>=4.1.0'
     dev: true
 
   /section-matter/1.0.0:
