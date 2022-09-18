@@ -1,0 +1,18 @@
+---
+import NavigationList from './NavigationList.astro'
+import type { Props as NavProps } from './NavigationList.astro'
+import type { Entry, HTMLAttributes } from './utils.js'
+
+export interface Props extends Entry, Omit<HTMLAttributes, 'title'> {
+  as?: string
+  showExcerpt?: boolean
+  listAttrs: Omit<NavProps, 'entries'>
+}
+
+const { as: Component = 'li', title, url, children = [], showExcerpt, listAttrs, ...attrs } = Astro.props
+---
+
+<Component {...attrs}>
+  <a href={url}>{title}</a>
+  {children.length > 0 && <NavigationList entries={children} {...listAttrs} />}
+</Component>

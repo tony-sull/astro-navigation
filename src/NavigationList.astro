@@ -1,0 +1,24 @@
+---
+import type { Props as NavigationProps } from './Navigation.astro'
+import NavigationItem from './NavigationItem.astro'
+import type { Entry } from './utils.js'
+
+export interface Props extends Omit<NavigationProps, 'pages'> {
+  entries: Entry[]
+}
+
+const { as: Component = 'ul', entries, showExcerpts = false, itemAttrs, ...attrs } = Astro.props
+---
+
+<Component {...attrs}>
+  {
+    entries.map((entry) => (
+      <NavigationItem
+        {...entry}
+        showExcerpt={showExcerpts}
+        listAttrs={{ as: Component, showExcerpts, itemAttrs }}
+        {...itemAttrs}
+      />
+    ))
+  }
+</Component>

@@ -2,11 +2,13 @@ lockfileVersion: 5.4
 
 specifiers:
   astro: ^1.2.6
+  dependency-graph: ^0.11.0
   prettier: ^2.7.1
   prettier-plugin-astro: ^0.5.4
 
 devDependencies:
   astro: 1.2.6
+  dependency-graph: 0.11.0
   prettier: 2.7.1
   prettier-plugin-astro: 0.5.4
 
@@ -954,6 +956,11 @@ packages:
   /define-lazy-prop/2.0.0:
     resolution: {integrity: sha512-Ds09qNh8yw3khSjiJjiUInaGX9xlqZDY7JVryGxdxV7NPeuqQfplOpQ66yJFZut3jLa5zOwkXw1g9EI2uKh4Og==}
     engines: {node: '>=8'}
+    dev: true
+
+  /dependency-graph/0.11.0:
+    resolution: {integrity: sha512-JeMq7fEshyepOWDfcfHK06N3MhyPhz++vtqWhMT5O9A3K42rdsEDpfdVqjaqaAhsw6a+ZqeDvQVtD0hFHQWrzg==}
+    engines: {node: '>= 0.6.0'}
     dev: true
 
   /dequal/2.0.3:

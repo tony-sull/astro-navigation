@@ -1,0 +1,18 @@
+---
+import NavigationList from './NavigationList.astro'
+import { findNavigationEntries } from './utils.js'
+import type { HTMLAttributes, Page } from './utils.js'
+
+export interface Props extends HTMLAttributes {
+  as?: string
+  pages: Page[]
+  showExcerpts?: boolean
+  itemAttrs?: Omit<HTMLAttributes, 'title'>
+}
+
+const { as: Component = 'ul', pages, showExcerpts = false, itemAttrs, ...attrs } = Astro.props
+
+const entries = findNavigationEntries(pages)
+---
+
+<NavigationList as={Component} entries={entries} showExcerpts={showExcerpts} itemAttrs={itemAttrs} {...attrs} />
