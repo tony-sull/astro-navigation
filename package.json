@@ -1,7 +1,6 @@
 {
   "name": "astro-navigation",
-  "description": "A plugin for creating hierarchical navigation in Astro projects. Supports breadcrumbs too! ",
-  "private": true,
+  "description": "A plugin for creating hierarchical navigation in Astro projects. Supports breadcrumbs too!",
   "version": "0.0.1",
   "type": "module",
   "exports": {
