@@ -12,7 +12,9 @@
     "index.ts"
   ],
   "keywords": [
-    "astro-component"
+    "astro-component",
+    "withastro",
+    "navigation"
   ],
   "scripts": {
     "lint": "prettier -w --plugin-search-dir=. ."
