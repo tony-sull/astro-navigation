@@ -25,8 +25,7 @@ const pages = await Astro.glob<PageFrontmatter>('../content/**/*.md')
 ---
 
 <nav aria-label="Navigation menu" id="navigation">
-    <!-- `<ul>` is used by default, this can be overridden with the "as" prop -->
-    <Navigation pages={pages} as="ol" />
+    <Navigation pages={pages} />
 </nav>
 
 <style is:global>
