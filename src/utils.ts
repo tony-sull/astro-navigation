@@ -6,6 +6,7 @@ import type * as Schemas from 'schema-dts'
 export type HTMLAttributes = Omit<astroHTML.JSX.HTMLAttributes, keyof astroHTML.JSX.IntrinsicAttributes>
 
 export type RequireSome<T, P extends keyof T> = Omit<T, P> & Required<Pick<T, P>>
+export type Optional<T, P extends keyof T> = Omit<T, P> & Partial<Pick<T, P>>
 
 export interface WebPage extends RequireSome<Schemas.WebPage, 'name'> {
   navigation?: {
@@ -23,7 +24,7 @@ export interface Entry {
   children?: Entry[]
 }
 
-export type Page = MarkdownInstance<WebPage> | MDXInstance<WebPage>
+export type Page = MarkdownInstance<Optional<WebPage, '@type'>> | MDXInstance<Optional<WebPage, '@type'>>
 
 export function fetchPage(pathname: string) {
   const page = fetchPages().find(({ frontmatter, url }) => (frontmatter.url || url) === pathname)
@@ -39,7 +40,13 @@ export function fetchPage(pathname: string) {
 
 export function fetchPages() {
   const globbed = import.meta.glob<Page>(['/src/content/pages/**/*.md', '/src/content/pages/**/*.mdx'], { eager: true })
-  return Object.values<Page>(globbed)
+  return Object.values<Page>(globbed).map((page) => ({
+    ...page,
+    frontmatter: {
+      '@type': 'WebPage',
+      ...page.frontmatter,
+    },
+  })) as Page[]
 }
 
 function getParentKey(url: string) {
