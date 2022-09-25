@@ -6,6 +6,11 @@
   "exports": {
     ".": "./index.ts"
   },
+  "author": {
+    "name": "Tony Sullivan",
+    "email": "tony.f.sullivan@outlook.com",
+    "url": "https://twitter.com/tonysull_co"
+  },
   "files": [
     "src",
     "index.ts"
@@ -15,6 +20,15 @@
     "withastro",
     "navigation"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tony-sull/astro-navigation.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/natemoo-re/astro-icon/issues"
+  },
+  "homepage": "https://github.com/tony-sull/astro-navigation#readme",
   "scripts": {
     "lint": "prettier -w --plugin-search-dir=. ."
   },
