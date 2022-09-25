@@ -6,11 +6,7 @@
   "exports": {
     ".": "./index.ts"
   },
-  "author": {
-    "name": "Tony Sullivan",
-    "email": "tony.f.sullivan@outlook.com",
-    "url": "https://twitter.com/tonysull_co"
-  },
+  "author": "tony-sull <tony.f.sullivan@outlook.com> (https://twitter.com/tonysull_co)",
   "files": [
     "src",
     "index.ts"
