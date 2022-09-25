@@ -1,5 +1,11 @@
 # astro-navigation
 
+## 0.1.2
+
+### Patch Changes
+
+- 0f8d703: Updates package metadata for NPM deployments
+
 ## 0.1.1
 
 ### Patch Changes
