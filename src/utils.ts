@@ -123,8 +123,6 @@ export function findPaginationEntries(
 
   const flatEntries = entries.map(walk).flat()
 
-  console.log(flatEntries)
-
   const index = flatEntries.findIndex(({ url }) => url === activeKey)
 
   const next = index <= flatEntries.length - 1 ? flatEntries[index + 1] : undefined
