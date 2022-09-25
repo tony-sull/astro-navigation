@@ -20,9 +20,9 @@ The `<Navigation>` component will build the list itself but leaves rendering a `
 
 To build the menu, the `<Navigation />` component:
 
-1) uses `import.meta.glob` to find all `.md` and `.mdx` files in `/src/content/pages`
-2) filters down to include only the files that include `navigation.order` frontmatter
-3) uses file-based routing similar to Astro's `/src/pages` directory to sort and nest pages in the menu
+1. uses `import.meta.glob` to find all `.md` and `.mdx` files in `/src/content/pages`
+2. filters down to include only the files that include `navigation.order` frontmatter
+3. uses file-based routing similar to Astro's `/src/pages` directory to sort and nest pages in the menu
 
 ```
 ---

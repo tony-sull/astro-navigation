@@ -90,10 +90,7 @@ function getDependencyGraph(nodes: Page[] = []) {
   return graph
 }
 
-export function findBreadcrumbEntries(
-  activeKey: string,
-  options: { includeSelf: boolean } = { includeSelf: true }
-) {
+export function findBreadcrumbEntries(activeKey: string, options: { includeSelf: boolean } = { includeSelf: true }) {
   let graph = getDependencyGraph(fetchPages())
   if (!graph.hasNode(activeKey)) {
     // Fail gracefully if the key isn't in the graph
@@ -113,15 +110,11 @@ export function findBreadcrumbEntries(
     : []
 }
 
-export function findPaginationEntries(
-  activeKey: string
-): { next?: Entry, prev?: Entry } {
+export function findPaginationEntries(activeKey: string): { next?: Entry; prev?: Entry } {
   const entries = findNavigationEntries(fetchPages())
 
   function walk(node: Entry): Entry[] {
-    return node.children?.length
-      ? [node, ...node.children.map(walk).flat()]
-      : [node]
+    return node.children?.length ? [node, ...node.children.map(walk).flat()] : [node]
   }
 
   const flatEntries = entries.map(walk).flat()

@@ -5,7 +5,7 @@ import { findBreadcrumbEntries } from './utils.js'
 import NavigationList from './NavigationList.astro'
 import Schema from './Schema.astro'
 
-export interface Props extends Omit<NavProps, 'entries'> { }
+export interface Props extends Omit<NavProps, 'entries'> {}
 
 const attrs = Astro.props
 
@@ -20,7 +20,7 @@ const breadcrumbs: BreadcrumbList = {
       item: {
         '@id': new URL(entry.url, Astro.site).toString(),
         name: entry.title,
-      }
+      },
     }
 
     return item
