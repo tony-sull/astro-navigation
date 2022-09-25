@@ -19,6 +19,7 @@
     "lint": "prettier -w --plugin-search-dir=. ."
   },
   "devDependencies": {
+    "@changesets/cli": "^2.24.4",
     "astro": "^1.2.6",
     "dependency-graph": "^0.11.0",
     "prettier": "^2.7.1",
