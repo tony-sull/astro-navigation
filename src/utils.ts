@@ -108,3 +108,27 @@ export function findBreadcrumbEntries(
       })
     : []
 }
+
+export function findPaginationEntries(
+  nodes: Page[],
+  activeKey: string
+): { next?: Entry, prev?: Entry } {
+  const entries = findNavigationEntries(nodes)
+
+  function walk(node: Entry): Entry[] {
+    return node.children?.length
+      ? [node, ...node.children.map(walk).flat()]
+      : [node]
+  }
+
+  const flatEntries = entries.map(walk).flat()
+
+  console.log(flatEntries)
+
+  const index = flatEntries.findIndex(({ url }) => url === activeKey)
+
+  const next = index <= flatEntries.length - 1 ? flatEntries[index + 1] : undefined
+  const prev = index > 0 ? flatEntries[index - 1] : undefined
+
+  return { next, prev }
+}
