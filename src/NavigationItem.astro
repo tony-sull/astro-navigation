@@ -13,6 +13,6 @@ const { as: Component = 'li', title, url, children = [], showExcerpt, listAttrs,
 ---
 
 <Component {...attrs}>
-  <a href={url}>{title}</a>
+  <a href={url} aria-current={url === Astro.url.pathname ? 'page' : undefined}>{title}</a>
   {children.length > 0 && <NavigationList entries={children} {...listAttrs} />}
 </Component>
