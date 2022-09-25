@@ -25,6 +25,18 @@ export interface Entry {
 
 export type Page = MarkdownInstance<WebPage> | MDXInstance<WebPage>
 
+export function fetchPage(pathname: string) {
+  const page = fetchPages().find(({ frontmatter, url }) => (frontmatter.url || url) === pathname)
+
+  if (!page) {
+    return undefined
+  }
+
+  delete page.frontmatter.navigation
+
+  return page
+}
+
 export function fetchPages() {
   const globbed = import.meta.glob<Page>(['/src/content/pages/**/*.md', '/src/content/pages/**/*.mdx'], { eager: true })
   return Object.values<Page>(globbed)
