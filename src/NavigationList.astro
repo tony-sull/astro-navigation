@@ -8,7 +8,7 @@ export interface Props extends Omit<NavigationProps, 'pages'> {
   disableCurrent?: boolean
 }
 
-const { as: Component = 'ul', entries, showExcerpts = false, disableCurrent = false, itemAttrs, ...attrs } = Astro.props
+const { as: Component = 'ol', entries, showExcerpts = false, disableCurrent = false, itemAttrs, ...attrs } = Astro.props
 ---
 
 <Component {...attrs}>

@@ -1,13 +1,13 @@
 /// <reference types="astro/astro-jsx" />
 import type { MarkdownInstance, MDXInstance } from 'astro'
 import { DepGraph } from 'dependency-graph'
+import type * as Schemas from 'schema-dts'
 
 export type HTMLAttributes = Omit<astroHTML.JSX.HTMLAttributes, keyof astroHTML.JSX.IntrinsicAttributes>
 
-export interface PageFrontmatter {
-  title: string
-  excerpt?: string
-  permalink?: string
+export type RequireSome<T, P extends keyof T> = Omit<T, P> & Required<Pick<T, P>>
+
+export interface WebPage extends RequireSome<Schemas.WebPage, 'name'> {
   navigation?: {
     order: number
     title?: string
@@ -23,7 +23,12 @@ export interface Entry {
   children?: Entry[]
 }
 
-export type Page = MarkdownInstance<PageFrontmatter> | MDXInstance<PageFrontmatter>
+export type Page = MarkdownInstance<WebPage> | MDXInstance<WebPage>
+
+export function fetchPages() {
+  const globbed = import.meta.glob<Page>(['/src/content/pages/**/*.md', '/src/content/pages/**/*.mdx'], { eager: true })
+  return Object.values<Page>(globbed)
+}
 
 function getParentKey(url: string) {
   const segments = url.split('/')
@@ -32,13 +37,13 @@ function getParentKey(url: string) {
   return segments.slice(0, segments.length - 1).join('/')
 }
 
-export function findNavigationEntries(nodes: Page[] = [], key = '') {
+export function findNavigationEntries(nodes: Page[] = fetchPages(), key = '') {
   let pages: Entry[] = []
 
   for (const entry of nodes) {
     if (entry.frontmatter.navigation) {
       const nav = entry.frontmatter.navigation
-      const url = entry.frontmatter.permalink || entry.url
+      const url = entry.frontmatter.url?.toString() || entry.url
       if (!url) {
         // TODO: console warning?
         continue
@@ -47,8 +52,8 @@ export function findNavigationEntries(nodes: Page[] = [], key = '') {
       if ((!key && !parent) || parent === key) {
         pages.push({
           ...nav,
-          title: entry.frontmatter.title,
-          excerpt: entry.frontmatter.excerpt,
+          title: entry.frontmatter.name.toString(),
+          excerpt: entry.frontmatter.headline?.toString(),
           url,
         })
       }
@@ -86,11 +91,10 @@ function getDependencyGraph(nodes: Page[] = []) {
 }
 
 export function findBreadcrumbEntries(
-  nodes: Page[],
   activeKey: string,
   options: { includeSelf: boolean } = { includeSelf: true }
 ) {
-  let graph = getDependencyGraph(nodes)
+  let graph = getDependencyGraph(fetchPages())
   if (!graph.hasNode(activeKey)) {
     // Fail gracefully if the key isn't in the graph
     return []
@@ -110,10 +114,9 @@ export function findBreadcrumbEntries(
 }
 
 export function findPaginationEntries(
-  nodes: Page[],
   activeKey: string
 ): { next?: Entry, prev?: Entry } {
-  const entries = findNavigationEntries(nodes)
+  const entries = findNavigationEntries(fetchPages())
 
   function walk(node: Entry): Entry[] {
     return node.children?.length

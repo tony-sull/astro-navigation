@@ -2,17 +2,14 @@
 import type { BreadcrumbList, ListItem } from 'schema-dts'
 import type { Props as NavProps } from './NavigationList.astro'
 import { findBreadcrumbEntries } from './utils.js'
-import type { Page } from './utils.js'
 import NavigationList from './NavigationList.astro'
 import Schema from './Schema.astro'
 
-export interface Props extends Omit<NavProps, 'entries'> {
-  pages: Page[]
-}
+export interface Props extends Omit<NavProps, 'entries'> { }
 
-const { pages, ...attrs } = Astro.props
+const attrs = Astro.props
 
-const entries = findBreadcrumbEntries(pages, Astro.url.pathname)
+const entries = findBreadcrumbEntries(Astro.url.pathname)
 
 const breadcrumbs: BreadcrumbList = {
   '@type': 'BreadcrumbList',
