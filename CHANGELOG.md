@@ -1,5 +1,11 @@
 # astro-navigation
 
+## 0.1.1
+
+### Patch Changes
+
+- 1e98d8a: Always include the WebPage ld+json schema in <Navigation />
+
 ## 0.1.0
 
 ### Minor Changes
