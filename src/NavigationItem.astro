@@ -6,13 +6,20 @@ import type { Entry, HTMLAttributes } from './utils.js'
 export interface Props extends Entry, Omit<HTMLAttributes, 'title'> {
   as?: string
   showExcerpt?: boolean
+  disableCurrent?: boolean
   listAttrs: Omit<NavProps, 'entries'>
 }
 
-const { as: Component = 'li', title, url, children = [], showExcerpt, listAttrs, ...attrs } = Astro.props
+const { as: Component = 'li', title, url, children = [], showExcerpt, disableCurrent = false, listAttrs, ...attrs } = Astro.props
+
+const current = url === Astro.url.pathname
 ---
 
 <Component {...attrs}>
-  <a href={url} aria-current={url === Astro.url.pathname ? 'page' : undefined}>{title}</a>
+  {current && disableCurrent ? (
+    <span aria-current="page">{title}</span>
+  ) : (
+    <a href={url} aria-current={current ? 'page' : undefined}>{title}</a> 
+  )}
   {children.length > 0 && <NavigationList entries={children} {...listAttrs} />}
 </Component>

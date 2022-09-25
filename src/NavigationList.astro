@@ -5,9 +5,10 @@ import type { Entry } from './utils.js'
 
 export interface Props extends Omit<NavigationProps, 'pages'> {
   entries: Entry[]
+  disableCurrent?: boolean
 }
 
-const { as: Component = 'ul', entries, showExcerpts = false, itemAttrs, ...attrs } = Astro.props
+const { as: Component = 'ul', entries, showExcerpts = false, disableCurrent = false, itemAttrs, ...attrs } = Astro.props
 ---
 
 <Component {...attrs}>
@@ -16,6 +17,7 @@ const { as: Component = 'ul', entries, showExcerpts = false, itemAttrs, ...attrs
       <NavigationItem
         {...entry}
         showExcerpt={showExcerpts}
+        disableCurrent={disableCurrent}
         listAttrs={{ as: Component, showExcerpts, itemAttrs }}
         {...itemAttrs}
       />

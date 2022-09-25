@@ -7,7 +7,7 @@ import NavigationList from './NavigationList.astro'
 import Schema from './Schema.astro'
 
 export interface Props extends Omit<NavProps, 'entries'> {
-    pages: Page[]
+  pages: Page[]
 }
 
 const { pages, ...attrs } = Astro.props
@@ -31,6 +31,6 @@ const breadcrumbs: BreadcrumbList = {
 }
 ---
 
-<NavigationList entries={entries} {...attrs} />
+<NavigationList entries={entries} disableCurrent {...attrs} />
 
 <Schema json={breadcrumbs} />
