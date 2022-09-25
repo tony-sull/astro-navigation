@@ -16,5 +16,5 @@ const currentPage = fetchPage(Astro.url.pathname)
 const entries = findNavigationEntries()
 ---
 
-{currentPage && (<Schema json={currentPage.frontmatter} />)}
+{currentPage && <Schema json={currentPage.frontmatter} />}
 <NavigationList as={Component} entries={entries} showExcerpts={showExcerpts} itemAttrs={itemAttrs} {...attrs} />

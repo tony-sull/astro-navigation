@@ -40,14 +40,13 @@ export function fetchPage(pathname: string) {
 
 export function fetchPages() {
   const globbed = import.meta.glob<Page>(['/src/content/pages/**/*.md', '/src/content/pages/**/*.mdx'], { eager: true })
-  return Object.values<Page>(globbed)
-    .map((page) => ({
-      ...page,
-      frontmatter: {
-        '@type': 'WebPage',
-        ...page.frontmatter,
-      }
-    })) as Page[]
+  return Object.values<Page>(globbed).map((page) => ({
+    ...page,
+    frontmatter: {
+      '@type': 'WebPage',
+      ...page.frontmatter,
+    },
+  })) as Page[]
 }
 
 function getParentKey(url: string) {
