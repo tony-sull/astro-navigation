@@ -1,0 +1,17 @@
+---
+import { findPaginationEntries } from './utils.js'
+import type { HTMLAttributes, Page } from './utils.js'
+
+export interface Props extends HTMLAttributes {
+    pages: Page[]
+}
+
+const { pages, ...attrs } = Astro.props
+
+const { next, prev } = findPaginationEntries(pages, Astro.url.pathname)
+---
+
+<nav {...attrs}>
+    {prev && (<a href={prev.url} data-prev>{prev.title}</a>)}
+    {next && (<a href={next.url} data-next>{next.title}</a>)}
+</nav>
