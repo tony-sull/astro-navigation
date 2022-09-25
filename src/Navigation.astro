@@ -1,7 +1,8 @@
 ---
 import NavigationList from './NavigationList.astro'
-import { findNavigationEntries } from './utils.js'
+import { fetchPage, findNavigationEntries } from './utils.js'
 import type { HTMLAttributes } from './utils.js'
+import Schema from './Schema.astro'
 
 export interface Props extends HTMLAttributes {
   as?: string
@@ -11,7 +12,9 @@ export interface Props extends HTMLAttributes {
 
 const { as: Component = 'ol', showExcerpts = false, itemAttrs, ...attrs } = Astro.props
 
+const currentPage = fetchPage(Astro.url.pathname)
 const entries = findNavigationEntries()
 ---
 
+{currentPage && (<Schema json={currentPage.frontmatter} />)}
 <NavigationList as={Component} entries={entries} showExcerpts={showExcerpts} itemAttrs={itemAttrs} {...attrs} />

@@ -4,7 +4,8 @@
 import Breadcrumbs from './src/Breadcrumbs.astro'
 import Navigation from './src/Navigation.astro'
 import Pagination from './src/Pagination.astro'
+import Schema from './src/Schema.astro'
 export type { WebPage } from './src/utils.js'
 
 export default Navigation
-export { Breadcrumbs, Pagination }
+export { Breadcrumbs, Pagination, Schema }
