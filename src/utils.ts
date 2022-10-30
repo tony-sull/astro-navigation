@@ -11,6 +11,7 @@ export type Optional<T, P extends keyof T> = Omit<T, P> & Partial<Pick<T, P>>
 export interface WebPage extends RequireSome<Schemas.WebPage, 'name'> {
   navigation?: {
     order: number
+    permalink?: string
     title?: string
   }
 }
@@ -27,7 +28,7 @@ export interface Entry {
 export type Page = MarkdownInstance<Optional<WebPage, '@type'>> | MDXInstance<Optional<WebPage, '@type'>>
 
 export function fetchPage(pathname: string) {
-  const page = fetchPages().find(({ frontmatter, url }) => (frontmatter.url || url) === pathname)
+  const page = fetchPages().find(({ frontmatter, url }) => (frontmatter.navigation?.permalink || frontmatter.url || url) === pathname)
 
   if (!page) {
     return undefined
@@ -62,7 +63,7 @@ export function findNavigationEntries(nodes: Page[] = fetchPages(), key = '') {
   for (const entry of nodes) {
     if (entry.frontmatter.navigation) {
       const nav = entry.frontmatter.navigation
-      const url = entry.frontmatter.url?.toString() || entry.url
+      const url = nav?.permalink || entry.frontmatter.url?.toString() || entry.url
       if (!url) {
         // TODO: console warning?
         continue

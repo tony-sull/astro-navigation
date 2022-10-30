@@ -45,7 +45,7 @@ import Navigation from 'astro-navigation'
 <style>
 ```
 
-Each markdown or MDX file should include `navigation.order` in its frontmatter. This order is used to sort sibling pages. Nesting is based on the `url` provided by `Astro.glob()` and can be overridden with a `permalink` frontmatter property, if needed.
+Each markdown or MDX file should include `navigation.order` in its frontmatter. This order is used to sort sibling pages. Nesting is based on the `url` provided by `Astro.glob()` and can be overridden with a `navigation.permalink` frontmatter property, if needed.
 
 ```
 ---
