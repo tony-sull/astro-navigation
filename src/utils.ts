@@ -45,26 +45,26 @@ export function fetchPage(pathname: string) {
 function fileToUrl(file: string) {
   const start = file.indexOf('/src/content/pages') + '/src/content/pages'.length
   const end = file.lastIndexOf('.')
-  const path = file.substring(start, end)
-      .replace(/\/index$/, '')
-      .replace(/^\//, '')
+  const path = file
+    .substring(start, end)
+    .replace(/\/index$/, '')
+    .replace(/^\//, '')
 
   return path || '/'
 }
 
 export function fetchPages() {
-  const results = import.meta.glob<Page>([
-    '/src/content/pages/**/*.md',
-    '/src/content/pages/**/*.mdx',
-    '/src/content/pages/**/*.astro'
-  ], { eager: true })
+  const results = import.meta.glob<Page>(
+    ['/src/content/pages/**/*.md', '/src/content/pages/**/*.mdx', '/src/content/pages/**/*.astro'],
+    { eager: true }
+  )
   return Object.values<Page>(results).map((page) => ({
     ...page,
     frontmatter: {
       '@type': 'WebPage',
       ...page.frontmatter,
     },
-    url: page.url || fileToUrl(page.file)
+    url: page.url || fileToUrl(page.file),
   })) as Page[]
 }
 
