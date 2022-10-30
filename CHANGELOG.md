@@ -1,5 +1,18 @@
 # astro-navigation
 
+## 0.2.0
+
+### Minor Changes
+
+- 3b7ca3d: fixes a mismatch between "name" and "title" frontmatter naming.
+
+### Patch Changes
+
+- ee4fd2b: chore: linter fixes
+- 51c0395: `@type` is now defaulted to "WebPage" when not provided in a page's frontmatter
+- d44cff3: Fixes a link in the package.json metadata
+- 881aef2: fix: navigation.permalink frontmatter was being ignored
+
 ## 0.1.2
 
 ### Patch Changes
