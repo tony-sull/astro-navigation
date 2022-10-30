@@ -1,5 +1,11 @@
 # astro-navigation
 
+## 0.2.1
+
+### Patch Changes
+
+- f5192e2: fix: fixes dependency graph
+
 ## 0.2.0
 
 ### Minor Changes
