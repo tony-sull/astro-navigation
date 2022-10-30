@@ -29,7 +29,9 @@ export interface Entry {
 export type Page = MarkdownInstance<Optional<WebPage, '@type'>> | MDXInstance<Optional<WebPage, '@type'>>
 
 export function fetchPage(pathname: string) {
-  const page = fetchPages().find(({ frontmatter, url }) => (frontmatter.navigation?.permalink || frontmatter.url || url) === pathname)
+  const page = fetchPages().find(
+    ({ frontmatter, url }) => (frontmatter.navigation?.permalink || frontmatter.url || url) === pathname
+  )
 
   if (!page) {
     return undefined
