@@ -1,7 +1,7 @@
 {
   "name": "astro-navigation",
   "description": "A plugin for creating hierarchical navigation in Astro projects. Supports breadcrumbs too!",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "exports": {
     ".": "./index.ts"
