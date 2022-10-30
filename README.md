@@ -49,7 +49,7 @@ Each markdown or MDX file should include `navigation.order` in its frontmatter. 
 
 ```
 ---
-name: Example site # text used in the menu, if `navigation.title` is not provided
+title: Example site # text used in the menu, if `navigation.title` is not provided
 url: /post-1 # URL for the page, if `url` is not provided by `import.meta.glob()`
 navigation:
   order: 1 # used to sort sibling pages

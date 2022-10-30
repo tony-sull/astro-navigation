@@ -8,7 +8,8 @@ export type HTMLAttributes = Omit<astroHTML.JSX.HTMLAttributes, keyof astroHTML.
 export type RequireSome<T, P extends keyof T> = Omit<T, P> & Required<Pick<T, P>>
 export type Optional<T, P extends keyof T> = Omit<T, P> & Partial<Pick<T, P>>
 
-export interface WebPage extends RequireSome<Schemas.WebPage, 'name'> {
+export interface WebPage extends Optional<Schemas.WebPage, 'name'> {
+  title: string
   navigation?: {
     order: number
     permalink?: string
@@ -72,7 +73,7 @@ export function findNavigationEntries(nodes: Page[] = fetchPages(), key = '') {
       if ((!key && !parent) || parent === key) {
         pages.push({
           ...nav,
-          title: entry.frontmatter.name.toString(),
+          title: entry.frontmatter.title.toString(),
           excerpt: entry.frontmatter.headline?.toString(),
           url,
         })
