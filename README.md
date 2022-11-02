@@ -10,7 +10,7 @@ This packages adds three components useful for building hierarchical navigation 
 
 `<Navigation />` builds a sorted hierarchical navigation menu, `<Breadcrumbs />` adds an SEO-friendly breadcrumb list for the current page, and `<Pagination />` adds next/previous navigation links.
 
-## <Navigation /> component
+## `<Navigation />` component
 
 This is the main component, building the HTML for a sorted navigation menu. Include a bit of frontmatter on each `.md` or `.mdx` page and the component will handle sorting and nesting pages automatically.
 
@@ -59,7 +59,7 @@ navigation:
 # My awesome page
 ```
 
-## <Breadcrumbs> component
+## `<Breadcrumbs>` component
 
 The API surface for breadcrumbs is very similar. Pages are automatically discovered by using `import.meta.glob` to scan `src/content/pages`. Again, this doesn't render the `<nav>` element since the specific use case varies between sites.
 
@@ -91,7 +91,7 @@ import { Breadcrumbs } from 'astro-navigation'
 </style>
 ```
 
-## <Pagination> component
+## `<Pagination>` component
 
 The pagination component will build next/previous links, if available.
 
