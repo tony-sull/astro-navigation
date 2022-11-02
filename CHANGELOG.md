@@ -1,5 +1,15 @@
 # astro-navigation
 
+## 0.4.0
+
+### Minor Changes
+
+- 384f316: Upgrades to the latest version of Astro and uses the new astro/types interfaces
+
+### Patch Changes
+
+- fbd6bb8: Fixing formatting error of readme file in npm
+
 ## 0.3.0
 
 ### Minor Changes
