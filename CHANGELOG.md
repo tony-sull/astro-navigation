@@ -1,5 +1,11 @@
 # astro-navigation
 
+## 0.3.0
+
+### Minor Changes
+
+- a4f11af: feat: adds support for .astro pages :rocket:
+
 ## 0.2.1
 
 ### Patch Changes
