@@ -1,9 +1,8 @@
 /// <reference types="astro/astro-jsx" />
 import type { MarkdownInstance, MDXInstance } from 'astro'
+import type { HTMLAttributes } from 'astro/types'
 import { DepGraph } from 'dependency-graph'
 import type * as Schemas from 'schema-dts'
-
-export type HTMLAttributes = Omit<astroHTML.JSX.HTMLAttributes, keyof astroHTML.JSX.IntrinsicAttributes>
 
 export type RequireSome<T, P extends keyof T> = Omit<T, P> & Required<Pick<T, P>>
 export type Optional<T, P extends keyof T> = Omit<T, P> & Partial<Pick<T, P>>

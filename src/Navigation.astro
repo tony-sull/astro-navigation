@@ -1,11 +1,11 @@
 ---
+import type { HTMLAttributes, HTMLTag } from 'astro/types'
 import NavigationList from './NavigationList.astro'
 import { fetchPage, findNavigationEntries } from './utils.js'
-import type { HTMLAttributes } from './utils.js'
 import Schema from './Schema.astro'
 
-export interface Props extends HTMLAttributes {
-  as?: string
+export interface Props extends HTMLAttributes<'nav'> {
+  as?: HTMLTag
   showExcerpts?: boolean
   itemAttrs?: Omit<HTMLAttributes, 'title'>
 }

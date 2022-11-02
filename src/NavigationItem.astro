@@ -1,10 +1,11 @@
 ---
+import type { HTMLAttributes, HTMLTag } from 'astro/types'
 import NavigationList from './NavigationList.astro'
 import type { Props as NavProps } from './NavigationList.astro'
-import type { Entry, HTMLAttributes } from './utils.js'
+import type { Entry } from './utils.js'
 
-export interface Props extends Entry, Omit<HTMLAttributes, 'title'> {
-  as?: string
+export interface Props extends Entry, Omit<HTMLAttributes<'nav'>, 'title' | 'children'> {
+  as?: HTMLTag
   showExcerpt?: boolean
   disableCurrent?: boolean
   listAttrs: Omit<NavProps, 'entries'>

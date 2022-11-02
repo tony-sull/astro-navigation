@@ -1,9 +1,9 @@
 ---
+import type { HTMLAttributes, HTMLTag } from 'astro/types'
 import { findPaginationEntries } from './utils.js'
-import type { HTMLAttributes } from './utils.js'
 
-export interface Props extends HTMLAttributes {
-  as?: string
+export interface Props extends HTMLAttributes<'ul'> {
+  as?: HTMLTag
   nextLabel: string
   prevLabel: string
 }
