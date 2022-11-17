@@ -1,0 +1,47 @@
+---
+import { Icon } from 'astro-icon'
+---
+
+<footer>
+    <p>Powered by Astro</p>
+
+    <ul aria-label="Social links">
+        <li>
+            <a
+                href="https://twitter.com/astrodotbuild"
+                aria-label="Find us on Twitter"
+            >
+                <Icon name="twitter" size={24} />
+            </a>
+        </li>
+        <li>
+            <a
+                href="https://github.com/withastro"
+                aria-label="Find us on GitHub"
+            >
+                <Icon name="github" size={24} />
+            </a>
+        </li>
+    </ul>
+</footer>
+
+<style>
+    footer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding-inline: 16px;
+    }
+
+    ul {
+        list-style: none;
+        display: flex;
+        flex-direction: row;
+        gap: 12px;
+    }
+
+    a {
+        color: inherit;
+    }
+</style>

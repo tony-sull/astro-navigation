@@ -1,23 +1,14 @@
 ---
 import type { MarkdownInstance } from 'astro'
-import Navigation from 'astro-navigation'
+import { fetchPages } from 'astro-navigation'
+import Layout from '../layouts/Docs.astro'
 
 export async function getStaticPaths() {
-    const allPages = await Astro.glob('../../content/**/*.md')
-
-    function fileToUrl(file: string) {
-        const start = file.indexOf('/content') + '/content'.length
-        const end = file.lastIndexOf('.')
-        const path = file
-            .substring(start, end)
-            .replace(/\/index$/, '')
-
-        return path || '/'
-    }
+    const allPages = await fetchPages()
 
     const res = allPages.map((page) => {
         return {
-            params: { slug: fileToUrl(page.file) },
+            params: { slug: page.url?.replace(/^\//, '') },
             props: { page }
         }
     })
@@ -28,16 +19,6 @@ export async function getStaticPaths() {
 const { page } = Astro.props as { page: MarkdownInstance<{ title: string }> }
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{ page.frontmatter.title }</title>
-	</head>
-	<body>
-        <Navigation />
-        <page.Content />
-	</body>
-</html>
+<Layout title={page.frontmatter.title}>
+    <page.Content />
+</Layout>
