@@ -7,7 +7,7 @@ import Schema from './Schema.astro'
 export interface Props extends HTMLAttributes<'nav'> {
   as?: HTMLTag
   showExcerpts?: boolean
-  itemAttrs?: Omit<HTMLAttributes, 'title'>
+  itemAttrs?: Omit<HTMLAttributes<'nav'>, 'title'>
 }
 
 const { as: Component = 'ol', showExcerpts = false, itemAttrs, ...attrs } = Astro.props

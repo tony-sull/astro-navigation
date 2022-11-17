@@ -1,0 +1,26 @@
+---
+import NavigationList from './NavigationList.astro'
+import { fetchPage } from './utils.js'
+import type { Entry, Page } from './utils.js'
+
+const page =await fetchPage(Astro.url.pathname)
+
+const headings: Entry[] = page.getHeadings()
+    .filter(heading => heading.depth > 1 && heading.depth < 4)
+    .map((heading, i) => ({
+        title: heading.text,
+        url: `${page.url}#${heading.slug}`,
+        order: i + 1
+    }))
+---
+
+<nav aria-labelledby="toc">
+    <strong id="toc">Table of Contents</strong>
+    <NavigationList entries={headings} />
+</nav>
+
+<style>
+    nav {
+        padding-block-start: 1em;
+    }
+</style>
