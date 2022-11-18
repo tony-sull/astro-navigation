@@ -1,9 +1,11 @@
 ---
+import '../assets/fonts.css'
 import { Navigation, TableOfContents } from 'astro-navigation'
-import type { Page } from 'astro-navigation'
 import Layout, { Props as LayoutProps } from './Base.astro'
+import Breadcrumbs from '../components/Breadcrumbs.astro'
 import Footer from '../components/Footer.astro'
 import Header from '../components/Header.astro'
+import Pagination from '../components/Pagination.astro'
 
 export interface Props extends LayoutProps { }
 
@@ -17,7 +19,9 @@ const { ...layout } = Astro.props
             <Navigation />
         </aside>
         <main>
+            <Breadcrumbs />
             <slot />
+            <Pagination />
         </main>
         <aside class='outline'>
             <TableOfContents />
@@ -42,6 +46,9 @@ const { ...layout } = Astro.props
         display: grid;
         grid-template-columns: 30ch 1fr 30ch;
         grid-template-areas: 'nav main outline';
+        gap: 32px;
+        max-width: calc(30ch + 80ch + 30ch + 64px);
+        margin: 0 auto;
     }
 
     aside {
