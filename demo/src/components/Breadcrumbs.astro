@@ -1,0 +1,21 @@
+---
+import { Breadcrumbs } from 'astro-navigation'
+---
+
+<Breadcrumbs />
+
+<style>
+    ol {
+        display: flex;
+        flex-direction: row;
+        gap: 12px;
+        list-style: none;
+        padding: 16px 0;
+        margin: 0;
+    }
+
+    ol :global(li:not(:last-child)::after) {
+        content: '>';
+        padding-inline-start: 12px;
+    }
+</style>

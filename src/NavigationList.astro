@@ -1,26 +1,25 @@
 ---
+import type { HTMLAttributes, HTMLTag } from 'astro/types'
 import type { Props as NavigationProps } from './Navigation.astro'
 import NavigationItem from './NavigationItem.astro'
 import type { Entry } from './utils.js'
 
-export interface Props extends Omit<NavigationProps, 'pages'> {
-  entries: Entry[]
-  disableCurrent?: boolean
+export type Props<N extends HTMLTag = 'nav', T extends HTMLTag = 'ol'> = Omit<NavigationProps<T>, keyof HTMLAttributes<N>> & {
+    entries: Entry[]
 }
 
-const { as: Component = 'ol', entries, showExcerpts = false, disableCurrent = false, itemAttrs, ...attrs } = Astro.props
+const {
+    as: Component = 'ol',
+    entries,
+    disableCurrent,
+    showExcerpts,
+    itemAttrs,
+    listAttrs,
+} = Astro.props
 ---
 
-<Component {...attrs}>
-  {
-    entries.map((entry) => (
-      <NavigationItem
-        {...entry}
-        showExcerpt={showExcerpts}
-        disableCurrent={disableCurrent}
-        listAttrs={{ as: Component, showExcerpts, itemAttrs }}
-        {...itemAttrs}
-      />
-    ))
-  }
+<Component {...listAttrs}>
+    {entries.map((entry) => (
+        <NavigationItem {...entry} {disableCurrent} showExcerpt={showExcerpts} {itemAttrs} {listAttrs} {itemAttrs} />
+    ))}
 </Component>

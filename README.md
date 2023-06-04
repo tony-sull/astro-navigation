@@ -91,6 +91,18 @@ import { Breadcrumbs } from 'astro-navigation'
 </style>
 ```
 
+## `<TableOfContents>` component
+
+The table of contents component adds a list of links to headers on `<h2>` and `<h3>` headers on the current page.
+
+```
+---
+import { fetchPage, TableOfContents } from 'astro-navigation'
+---
+
+<TableOfContents />
+```
+
 ## `<Pagination>` component
 
 The pagination component will build next/previous links, if available.

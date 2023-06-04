@@ -2,7 +2,7 @@
 import type { HTMLAttributes, HTMLTag } from 'astro/types'
 import { findPaginationEntries } from './utils.js'
 
-export interface Props extends HTMLAttributes<'ul'> {
+export interface Props extends Omit<HTMLAttributes<'ul'>, 'slot'> {
   as?: HTMLTag
   nextLabel: string
   prevLabel: string
@@ -10,7 +10,7 @@ export interface Props extends HTMLAttributes<'ul'> {
 
 const { as: Component = 'ol', nextLabel, prevLabel, ...attrs } = Astro.props
 
-const { next, prev } = findPaginationEntries(Astro.url.pathname)
+const { next, prev } = await findPaginationEntries('pages', Astro.url.pathname)
 ---
 
 <Component {...attrs}>

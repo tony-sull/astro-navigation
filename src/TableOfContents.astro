@@ -1,0 +1,33 @@
+---
+import type { HTMLAttributes, HTMLTag } from 'astro/types'
+import NavigationList from './NavigationList.astro'
+import { Collection, fetchPage } from './utils.js'
+
+export type Props<N extends HTMLTag = 'nav'> = HTMLAttributes<N> & {
+    as?: HTMLTag 
+    collection?: Collection
+}
+
+const { as: Component = 'nav', collection = 'pages', ...attrs } = Astro.props
+
+const page = await fetchPage(collection, Astro.url.pathname.replace(/^\//, '').replace(/\/$/, ''))
+
+if (!page) {
+    throw new Error(`[TableOfContents] page for "${Astro.url.pathname}" not found`)
+}
+
+const { headings } = await page?.render()
+
+const entries = headings
+    .filter(heading => heading.depth > 1 && heading.depth < 4)
+    .map((heading, i) => ({
+        title: heading.text,
+        url: `${Astro.url.pathname}#${heading.slug}`,
+        order: i + 1
+    }))
+---
+
+<Component aria-labelledby="toc" {...attrs}>
+    <strong id="toc">Table of Contents</strong>
+    <NavigationList entries={entries} />
+</Component>

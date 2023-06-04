@@ -1,0 +1,69 @@
+---
+import '../assets/fonts.css'
+import { Navigation, TableOfContents } from 'astro-navigation'
+import Layout, { Props as LayoutProps } from './Base.astro'
+import Breadcrumbs from '../components/Breadcrumbs.astro'
+import Footer from '../components/Footer.astro'
+import Header from '../components/Header.astro'
+import Pagination from '../components/Pagination.astro'
+
+export interface Props extends LayoutProps { }
+
+const { ...layout } = Astro.props
+---
+
+<Layout {...layout}>
+    <Header />
+    <div class='docs'>
+        <aside class='nav'>
+            <Navigation />
+        </aside>
+        <main>
+            <Breadcrumbs />
+            <slot />
+            <Pagination />
+        </main>
+        <aside class='outline'>
+            <TableOfContents />
+        </aside>
+    </div>
+    <Footer />
+</Layout>
+
+<style is:global>
+    body {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+    }
+</style>
+
+<style>
+    .docs {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 30ch 1fr 30ch;
+        grid-template-areas: 'nav main outline';
+        gap: 32px;
+        max-width: calc(30ch + 80ch + 30ch + 64px);
+        margin: 0 auto;
+    }
+
+    aside {
+        align-self: flex-start;
+    }
+
+    .nav {
+        grid-area: nav;
+    }
+
+    main {
+        grid-area: main;
+    }
+
+    .outline {
+        grid-area: outline;
+    }
+</style>

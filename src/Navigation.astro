@@ -1,20 +1,29 @@
 ---
 import type { HTMLAttributes, HTMLTag } from 'astro/types'
 import NavigationList from './NavigationList.astro'
-import { fetchPage, findNavigationEntries } from './utils.js'
-import Schema from './Schema.astro'
+import { type Collection, findNavigationEntries } from './utils.js'
 
-export interface Props extends HTMLAttributes<'nav'> {
-  as?: HTMLTag
-  showExcerpts?: boolean
-  itemAttrs?: Omit<HTMLAttributes, 'title'>
+export type Props<N extends HTMLTag = 'nav', L extends HTMLTag = 'ol', I extends HTMLTag = 'li'> = HTMLAttributes<N> & {
+    as?: N
+    collection?: Collection
+    disableCurrent?: boolean
+    showExcerpts?: boolean
+    itemAttrs?: HTMLAttributes<I>
+    listAttrs?: HTMLAttributes<L>
 }
 
-const { as: Component = 'ol', showExcerpts = false, itemAttrs, ...attrs } = Astro.props
+const {
+    as: Component = 'nav',
+    collection = 'pages',
+    disableCurrent,
+    showExcerpts,
+    itemAttrs,
+    listAttrs,
+    ...attrs
+} = Astro.props
 
-const currentPage = fetchPage(Astro.url.pathname)
-const entries = findNavigationEntries()
+const entries = await findNavigationEntries(collection)
 ---
 
-{currentPage && <Schema json={currentPage.frontmatter} />}
-<NavigationList as={Component} entries={entries} showExcerpts={showExcerpts} itemAttrs={itemAttrs} {...attrs} />
+
+<NavigationList as={Component} {entries} {disableCurrent} {showExcerpts} {itemAttrs} {listAttrs} {...attrs} />

@@ -1,0 +1,27 @@
+---
+import type { MarkdownInstance } from 'astro'
+import { fetchPages } from 'astro-navigation'
+import Layout from '../layouts/Docs.astro'
+import type { CollectionEntry } from 'astro:content'
+
+export async function getStaticPaths() {
+    const allPages = await fetchPages('pages')
+
+    const res = allPages.map((page) => {
+        return {
+            params: { slug: page.slug },
+            props: { page }
+        }
+    })
+
+    return res
+}
+
+const { page } = Astro.props as { page: CollectionEntry<'pages'> }
+
+const { Content } = await page.render()
+---
+
+<Layout title={page.data.title}>
+    <Content />
+</Layout>

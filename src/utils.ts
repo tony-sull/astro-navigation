@@ -1,22 +1,7 @@
-/// <reference types="astro/astro-jsx" />
-import type { MarkdownInstance, MDXInstance } from 'astro'
-import type { HTMLAttributes } from 'astro/types'
+import { CollectionEntry, getCollection } from 'astro:content'
 import { DepGraph } from 'dependency-graph'
-import type * as Schemas from 'schema-dts'
 
-export type RequireSome<T, P extends keyof T> = Omit<T, P> & Required<Pick<T, P>>
-export type Optional<T, P extends keyof T> = Omit<T, P> & Partial<Pick<T, P>>
-
-export interface WebPage extends Optional<Schemas.WebPage, 'name'> {
-  title: string
-  navigation?: {
-    order: number
-    permalink?: string
-    title?: string
-  }
-}
-
-export interface Entry {
+export type Entry = {
   title: string
   excerpt?: string
   url: string
@@ -25,46 +10,28 @@ export interface Entry {
   children?: Entry[]
 }
 
-export type Page = MarkdownInstance<Optional<WebPage, '@type'>> | MDXInstance<Optional<WebPage, '@type'>>
+export type Collection = Parameters<typeof getCollection>[0]
+type CollectionEntries = CollectionEntry<Collection>[]
 
-export function fetchPage(pathname: string) {
-  const page = fetchPages().find(
-    ({ frontmatter, url }) => (frontmatter.navigation?.permalink || frontmatter.url || url) === pathname
+export async function fetchPages(collection: Collection) {
+  const pages = await getCollection(collection)
+
+  console.log('fetchPages::', pages.map((page) => `${page.slug}, ${JSON.stringify(page.data)}`))
+  return pages
+}
+
+export async function fetchPage(collection: Collection, pathname: string) {
+  const page = (await fetchPages(collection)).find(
+    ({ data, slug }) => (data.navigation?.permalink || slug) === pathname
   )
 
   if (!page) {
     return undefined
   }
 
-  delete page.frontmatter.navigation
+  delete page.data.navigation
 
   return page
-}
-
-function fileToUrl(file: string) {
-  const start = file.indexOf('/src/content/pages') + '/src/content/pages'.length
-  const end = file.lastIndexOf('.')
-  const path = file
-    .substring(start, end)
-    .replace(/\/index$/, '')
-    .replace(/^\//, '')
-
-  return path || '/'
-}
-
-export function fetchPages() {
-  const results = import.meta.glob<Page>(
-    ['/src/content/pages/**/*.md', '/src/content/pages/**/*.mdx', '/src/content/pages/**/*.astro'],
-    { eager: true }
-  )
-  return Object.values<Page>(results).map((page) => ({
-    ...page,
-    frontmatter: {
-      '@type': 'WebPage',
-      ...page.frontmatter,
-    },
-    url: page.url || fileToUrl(page.file),
-  })) as Page[]
 }
 
 function getParentKey(url: string) {
@@ -74,13 +41,19 @@ function getParentKey(url: string) {
   return segments.slice(0, segments.length - 1).join('/')
 }
 
-export function findNavigationEntries(nodes: Page[] = fetchPages(), key = '') {
+export async function findNavigationEntries<C extends Collection>(
+  collection: C,
+  current?: CollectionEntries,
+  key = ''
+) {
+  const nodes = !!current ? current : await fetchPages(collection)
+
   let pages: Entry[] = []
 
   for (const entry of nodes) {
-    if (entry.frontmatter.navigation) {
-      const nav = entry.frontmatter.navigation
-      const url = nav?.permalink || entry.frontmatter.url?.toString() || entry.url
+    if (entry.data.navigation) {
+      const nav = entry.data.navigation
+      const url = nav?.permalink || entry.slug
       if (!url) {
         // TODO: console warning?
         continue
@@ -89,23 +62,25 @@ export function findNavigationEntries(nodes: Page[] = fetchPages(), key = '') {
       if ((!key && !parent) || parent === key) {
         pages.push({
           ...nav,
-          title: entry.frontmatter.title.toString(),
-          excerpt: entry.frontmatter.headline?.toString(),
+          title: entry.data.title.toString(),
+          excerpt: entry.data.excerpt?.toString(),
           url,
         })
       }
     }
   }
 
-  return pages
-    .sort((a, b) => a.order - b.order)
-    .map((entry) => {
-      if (entry.url) {
-        entry.children = findNavigationEntries(nodes, entry.url)
-      }
+  return await Promise.all(
+    pages
+      .sort((a, b) => a.order - b.order)
+      .map(async (entry) => {
+        if (entry.url) {
+          entry.children = await findNavigationEntries(collection, nodes, entry.url)
+        }
 
-      return entry
-    })
+        return entry
+      })
+  )
 }
 
 function findDependencies(pages: Entry[], depGraph: DepGraph<Entry>, parentKey?: string) {
@@ -120,15 +95,19 @@ function findDependencies(pages: Entry[], depGraph: DepGraph<Entry>, parentKey?:
   }
 }
 
-function getDependencyGraph(nodes: Page[] = []) {
-  let pages = findNavigationEntries(nodes)
+async function getDependencyGraph<C extends Collection>(collection: C, nodes: CollectionEntries = []) {
+  let pages = await findNavigationEntries(collection, nodes)
   let graph = new DepGraph<Entry>()
   findDependencies(pages, graph)
   return graph
 }
 
-export function findBreadcrumbEntries(activeKey: string, options: { includeSelf: boolean } = { includeSelf: true }) {
-  let graph = getDependencyGraph(fetchPages())
+export async function findBreadcrumbEntries<C extends Collection>(
+  collection: C,
+  activeKey: string,
+  options: { includeSelf: boolean } = { includeSelf: true }
+) {
+  let graph = await getDependencyGraph(collection, await fetchPages(collection))
   if (!graph.hasNode(activeKey)) {
     // Fail gracefully if the key isn't in the graph
     return []
@@ -147,8 +126,8 @@ export function findBreadcrumbEntries(activeKey: string, options: { includeSelf:
     : []
 }
 
-export function findPaginationEntries(activeKey: string): { next?: Entry; prev?: Entry } {
-  const entries = findNavigationEntries(fetchPages())
+export async function findPaginationEntries<C extends Collection>(collection: C, activeKey: string): Promise<{ next?: Entry; prev?: Entry }> {
+  const entries = await findNavigationEntries(collection, await fetchPages(collection))
 
   function walk(node: Entry): Entry[] {
     return node.children?.length ? [node, ...node.children.map(walk).flat()] : [node]

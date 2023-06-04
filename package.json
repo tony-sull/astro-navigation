@@ -1,12 +1,13 @@
 {
   "name": "astro-navigation",
   "description": "A plugin for creating hierarchical navigation in Astro projects. Supports breadcrumbs too!",
-  "version": "0.4.0",
+  "version": "1.0.0",
   "type": "module",
+  "types": "./src/index.ts",
   "exports": {
-    ".": "./index.ts"
+    ".": "./src/index.ts"
   },
-  "author": "tony-sull <tony.f.sullivan@outlook.com> (https://twitter.com/tonysull_co)",
+  "author": "tony-sull <dev@tonysull.co> (https://twitter.com/tonysull_co)",
   "files": [
     "src",
     "index.ts"
@@ -34,13 +35,11 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.25.2",
-    "astro": "^1.6.2",
+    "astro": "^2.0.0",
     "prettier": "^2.7.1",
     "prettier-plugin-astro": "^0.7.0",
-    "typescript": "^4.8.4"
-  },
-  "peerDependencies": {
-    "astro": "^1.6.2"
+    "typescript": "^4.8.4",
+    "zod": "^3.20.6"
   },
   "packageManager": "pnpm@7.9.5"
 }

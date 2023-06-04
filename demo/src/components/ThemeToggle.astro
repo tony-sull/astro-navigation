@@ -1,0 +1,64 @@
+---
+import { Icon } from 'astro-icon'
+---
+
+<theme-toggle>
+    <button>
+        <Icon name='display' size={20} />
+        <Icon name='sun' size={24} />
+        <Icon name='moon' size={24} />
+    </button>
+</theme-toggle>
+
+<style>
+    button {
+        margin: 0;
+        padding: 0;
+        background: transparent;
+        border: none;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    :global(:root:not([data-theme])) :is([astro-icon=moon], [astro-icon=sun]),
+    :global(:root[data-theme=dark]) :is([astro-icon=display], [astro-icon=sun]),
+    :global(:root[data-theme=light]) :is([astro-icon=display], [astro-icon=moon]) {
+        display: none;
+    }
+</style>
+
+<script>
+    const THEMES = [undefined, 'light', 'dark']
+
+    class ThemeToggle extends HTMLElement {
+        connectedCallback() {
+            this.addEventListener('click', () => this.toggleTheme(), true)
+        }
+
+        get theme() {
+            const attr = document.documentElement.dataset.theme
+            switch (attr) {
+                case 'dark':
+                    return 'dark'
+                case 'light':
+                    return 'light'
+                default:
+                    return undefined
+            }
+        }
+
+        set theme(value: 'dark' | 'light' | undefined) {
+            value === undefined
+                ? delete document.documentElement.dataset.theme
+                : document.documentElement.dataset.theme = value
+        }
+
+        toggleTheme() {
+            const current = THEMES.indexOf(this.theme)
+            this.theme = THEMES[(current + 1) % THEMES.length]
+        }
+    }
+
+    customElements.define('theme-toggle', ThemeToggle)
+</script>
